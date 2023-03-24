@@ -1,5 +1,20 @@
 [
   {
+    "type": "array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "bold_content",
     "named": true,
     "fields": {}
@@ -83,6 +98,10 @@
       "required": true,
       "types": [
         {
+          "type": "array",
+          "named": true
+        },
+        {
           "type": "content",
           "named": true
         },
@@ -161,11 +180,6 @@
     "fields": {}
   },
   {
-    "type": "number",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -194,6 +208,10 @@
       "required": true,
       "types": [
         {
+          "type": "dictionary",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -219,10 +237,6 @@
   },
   {
     "type": "$",
-    "named": false
-  },
-  {
-    "type": "%",
     "named": false
   },
   {
@@ -302,7 +316,11 @@
     "named": false
   },
   {
-    "type": "pt",
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "set",
     "named": false
   },
   {

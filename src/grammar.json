@@ -207,6 +207,23 @@
           ]
         },
         {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "set"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "ident"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dictionary"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "expr"
         }
@@ -215,6 +232,10 @@
     "expr": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "array"
+        },
         {
           "type": "SYMBOL",
           "name": "dictionary"
@@ -310,6 +331,51 @@
               }
             ]
           }
+        }
+      ]
+    },
+    "array": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expr"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
@@ -516,37 +582,11 @@
     },
     "ident": {
       "type": "PATTERN",
-      "value": "[a-zA-Z_][a-zA-Z0-9_.-]+"
+      "value": "[a-zA-Z_][a-zA-Z0-9_.-]*"
     },
     "number": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[0-9]+"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "%"
-                },
-                {
-                  "type": "STRING",
-                  "value": "pt"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "PATTERN",
+      "value": "[0-9]+(\\.[0-9]+)?(%|pt|mm|cm|in|em|fr|deg|rad)?"
     },
     "string": {
       "type": "SEQ",

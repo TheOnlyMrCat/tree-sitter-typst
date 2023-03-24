@@ -41,9 +41,12 @@ module.exports = grammar({
 
     statement: $ => choice(
       seq("let", $.ident, "=", $.expr),
+      seq(field("set", "set"), $.ident, $.dictionary),
       $.expr,
     ),
+
     expr: $ => choice(
+      $.array,
       $.dictionary,
       $.number,
       $.string,
@@ -53,6 +56,13 @@ module.exports = grammar({
       prec(1, seq($.expr, $.content)),
       prec.left(1, seq($.expr, ".", $.expr)),
       prec.left(1, seq($.expr, "+", $.expr)),
+    ),
+    array: $ => seq(
+      "(",
+      $.expr,
+      repeat(seq(",", $.expr)),
+      optional(","),
+      ")",
     ),
     dictionary: $ => seq(
       "(",
@@ -77,11 +87,8 @@ module.exports = grammar({
       )),
       ")",
     ),
-    ident: $ => /[a-zA-Z_][a-zA-Z0-9_.-]+/,
-    number: $ => seq(/[0-9]+/, optional(choice(
-      "%",
-      "pt",
-    ))),
+    ident: $ => /[a-zA-Z_][a-zA-Z0-9_.-]*/,
+    number: $ => /[0-9]+(\.[0-9]+)?(%|pt|mm|cm|in|em|fr|deg|rad)?/,
     string: $ => seq('"', /[^"]+/, '"'),
   }
 })

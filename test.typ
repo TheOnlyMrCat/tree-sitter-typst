@@ -1,3 +1,12 @@
+#set page(
+  header: block(
+    stroke: (bottom: black),
+    inset: (top: 32pt, bottom: 0.35em),
+    [#grid(columns: (1fr, 1fr, 1fr))[*Three*][#align(center)[*column*]][#align(right)[*header*]]]
+  ),
+  margin: (x: 48pt, y: 56pt)
+)
+
 #let custom_block = block.with(
   fill: rgb("#f8f8fc"),
   stroke: (left: rgb("#0074d9") + 2pt),

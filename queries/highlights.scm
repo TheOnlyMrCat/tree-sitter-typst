@@ -1,4 +1,5 @@
 "let" @keyword.directive
+(statement set) @keyword.directive
 (symbol_name) @variable.builtin
 (special_punct) @punctuation.special
 (math_special_punct) @punctuation.special
