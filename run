@@ -1,0 +1,6 @@
+[tree-sitter-typst:build]
+tree-sitter generate
+
+[tree-sitter-typst:run]
+::default-phase build run
+tree-sitter parse ${1-test.typ}
