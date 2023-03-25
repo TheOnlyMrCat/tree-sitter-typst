@@ -1,22 +1,45 @@
 module.exports = grammar({
   name: "typst",
 
+  extras: $ => [
+    $.line_comment,
+    $.block_comment,
+    /[\s]/,
+  ],
   word: $ => $.ident,
-  inline: $ => [$._statement, $._expression],
+  inline: $ => [
+    $._statement,
+    $._expression,
+  ],
   
   rules: {
     source_file: $ => $.content_inner,
     content_inner: $ => repeat1(prec(-1, choice(
-      /[^\\~\-.*_$#\]]+/,
+      /[^\\~\-.*_$#\]\/`h]+/,
+      $.escape_sequence,
       $.special_punct,
       "-",
       ".",
       "]",
+      "/",
+      "h",
       seq('*', $.bold_content, '*'),
       seq('_', $.em_content, '_'),
       seq('$', $.math_content, '$'),
+      $.raw_content,
       $.code_introducer,
+      $.url,
+      // These are placed here to make them reachable from source_file
+      $.line_comment, 
+      $.block_comment,
     ))),
+    escape_sequence: $ => token(seq(
+      "\\",
+      choice(
+        /[^ u]/,
+        /u\{[0-9a-fA-F]+\}/
+      )
+    )),
     special_punct: $ => choice(
       "~",
       "\\",
@@ -26,6 +49,12 @@ module.exports = grammar({
     ),
     bold_content: $ => repeat1(/[^*]+/),
     em_content: $ => repeat1(/[^_]+/),
+    raw_content: $ => seq(
+      '`',
+      /[^`]+/,
+      '`',
+    ),
+    url: $ => /https?:\/\/.*/,
 
     math_content: $ => repeat1(choice(
       /[^a-zA-Z"&\\^_$]+/,
@@ -129,6 +158,26 @@ module.exports = grammar({
 
     ident: $ => /[a-zA-Z_][a-zA-Z0-9_-]*/,
     number: $ => /[0-9]+(\.[0-9]+)?(%|pt|mm|cm|in|em|fr|deg|rad)?/,
-    string: $ => seq('"', /[^"]+/, '"'),
+    string: $ => seq(
+      '"',
+      repeat(choice(
+        /[^"\\]+/,
+        "\\",
+        $.string_escape,
+      )),
+      '"',
+    ),
+    string_escape: $ => /\\("|u\{[0-9a-fA-F]+\})/,
+
+    line_comment: $ => token(seq('//', /.*/)),
+    block_comment: $ => seq(
+      token(prec(1, '/*')),
+      repeat(choice(
+        $.block_comment,
+        /[^*]/,
+        /\*[^/]/,
+      )),
+      '*/'
+    ),
   }
 })

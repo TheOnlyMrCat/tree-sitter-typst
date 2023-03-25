@@ -141,6 +141,21 @@
     }
   },
   {
+    "type": "block_comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "block_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "bold_content",
     "named": true,
     "fields": {}
@@ -224,6 +239,10 @@
       "required": false,
       "types": [
         {
+          "type": "block_comment",
+          "named": true
+        },
+        {
           "type": "bold_content",
           "named": true
         },
@@ -236,11 +255,27 @@
           "named": true
         },
         {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "line_comment",
+          "named": true
+        },
+        {
           "type": "math_content",
           "named": true
         },
         {
+          "type": "raw_content",
+          "named": true
+        },
+        {
           "type": "special_punct",
+          "named": true
+        },
+        {
+          "type": "url",
           "named": true
         }
       ]
@@ -514,6 +549,11 @@
     "fields": {}
   },
   {
+    "type": "raw_content",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "set_statement",
     "named": true,
     "fields": {
@@ -572,7 +612,17 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string_escape",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "\"",
@@ -600,6 +650,10 @@
   },
   {
     "type": "*",
+    "named": false
+  },
+  {
+    "type": "*/",
     "named": false
   },
   {
@@ -631,6 +685,14 @@
     "named": false
   },
   {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "/*",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -659,12 +721,28 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
+    "type": "escape_sequence",
+    "named": true
+  },
+  {
+    "type": "h",
+    "named": false
+  },
+  {
     "type": "ident",
     "named": true
   },
   {
     "type": "let",
     "named": false
+  },
+  {
+    "type": "line_comment",
+    "named": true
   },
   {
     "type": "number",
@@ -675,7 +753,15 @@
     "named": false
   },
   {
+    "type": "string_escape",
+    "named": true
+  },
+  {
     "type": "symbol_name",
+    "named": true
+  },
+  {
+    "type": "url",
     "named": true
   },
   {

@@ -4,3 +4,6 @@ tree-sitter generate
 [tree-sitter-typst:run]
 ::default-phase build run
 tree-sitter parse ${1-test.typ}
+
+[tree-sitter-typst:test]
+tree-sitter test

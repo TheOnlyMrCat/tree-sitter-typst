@@ -15,7 +15,19 @@
   radius: 2pt,
 )
 
-This is my test file. How about some *bold text*. _Emphasised text?_
+This is my test file. How about some *bold text*. _Emphasised text?_ // A comment, even?
+
+/* A normal block comment */
+
+/* A multiline block comment,
+  that's even /* nested */ to
+  make sure the parser works
+*/
+
+`Some raw text too`, and a link to https://example.com
+
+Escaped \$dollar sign.
+Also a #"string with an escaped \" quote in it"
 
 $ "Oh look, some math" x &= (-b plus.minus sqrt(b^2-4a c))/(2a) \ x &= plus.minus 1 $
 
