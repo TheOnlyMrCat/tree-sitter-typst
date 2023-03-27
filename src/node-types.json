@@ -156,6 +156,33 @@
     }
   },
   {
+    "type": "block_raw_content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "raw_block_end",
+          "named": true
+        },
+        {
+          "type": "raw_block_start",
+          "named": true
+        },
+        {
+          "type": "raw_content_inner",
+          "named": true
+        },
+        {
+          "type": "raw_language",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "bold_content",
     "named": true,
     "fields": {}
@@ -243,6 +270,10 @@
           "named": true
         },
         {
+          "type": "block_raw_content",
+          "named": true
+        },
+        {
           "type": "bold_content",
           "named": true
         },
@@ -259,15 +290,15 @@
           "named": true
         },
         {
+          "type": "inline_raw_content",
+          "named": true
+        },
+        {
           "type": "line_comment",
           "named": true
         },
         {
           "type": "math_content",
-          "named": true
-        },
-        {
-          "type": "raw_content",
           "named": true
         },
         {
@@ -430,6 +461,11 @@
     }
   },
   {
+    "type": "inline_raw_content",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "let_statement",
     "named": true,
     "fields": {
@@ -506,6 +542,14 @@
       "required": false,
       "types": [
         {
+          "type": "code_introducer",
+          "named": true
+        },
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
           "type": "math_function",
           "named": true
         },
@@ -549,7 +593,7 @@
     "fields": {}
   },
   {
-    "type": "raw_content",
+    "type": "raw_content_inner",
     "named": true,
     "fields": {}
   },
@@ -746,6 +790,18 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "raw_block_end",
+    "named": true
+  },
+  {
+    "type": "raw_block_start",
+    "named": true
+  },
+  {
+    "type": "raw_language",
     "named": true
   },
   {

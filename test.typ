@@ -15,9 +15,11 @@
   radius: 2pt,
 )
 
-This is my test file. How about some *bold text*. _Emphasised text?_ // A comment, even?
+#custom_block[
+  Let's put some content in here
+]
 
-/* A normal block comment */
+This is my test file. How about some *bold text*. _Emphasised text?_ // A comment, even?
 
 /* A multiline block comment,
   that's even /* nested */ to
@@ -29,8 +31,28 @@ This is my test file. How about some *bold text*. _Emphasised text?_ // A commen
 Escaped \$dollar sign.
 Also a #"string with an escaped \" quote in it"
 
-$ "Oh look, some math" x &= (-b plus.minus sqrt(b^2-4a c))/(2a) \ x &= plus.minus 1 $
+```c
+#include <stdio.h>
 
-#custom_block[
-  Let's put some content in here
-]
+int main(int argc, char **argv) {
+    puts("Hello, world!");
+}
+```
+
+````md
+This is also legal:
+
+```java
+class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}
+```
+
+And the raw block *hasn't* terminated yet...
+````
+
+Now it has.
+
+$ "Oh look, some math" x &= (-b plus.minus sqrt(b^2-4a c))/(2a) \ x &= plus.minus 1 $

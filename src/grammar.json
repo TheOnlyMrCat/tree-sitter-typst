@@ -99,7 +99,11 @@
             },
             {
               "type": "SYMBOL",
-              "name": "raw_content"
+              "name": "inline_raw_content"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "block_raw_content"
             },
             {
               "type": "SYMBOL",
@@ -185,7 +189,7 @@
         "value": "[^_]+"
       }
     },
-    "raw_content": {
+    "inline_raw_content": {
       "type": "SEQ",
       "members": [
         {
@@ -199,6 +203,64 @@
         {
           "type": "STRING",
           "value": "`"
+        }
+      ]
+    },
+    "block_raw_content": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "raw_block_start"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PREC",
+                  "value": 1,
+                  "content": {
+                    "type": "PATTERN",
+                    "value": "[a-zA-Z_][a-zA-Z0-9_-]*"
+                  }
+                }
+              },
+              "named": true,
+              "value": "raw_language"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "REPEAT",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^`]+"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "`+"
+                }
+              ]
+            }
+          },
+          "named": true,
+          "value": "raw_content_inner"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "raw_block_end"
         }
       ]
     },
@@ -226,6 +288,14 @@
           {
             "type": "PATTERN",
             "value": "[a-zA-Z]"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "code_introducer"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "escape_sequence"
           },
           {
             "type": "SYMBOL",
@@ -860,7 +930,16 @@
   ],
   "conflicts": [],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "raw_block_start"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "raw_block_end"
+    }
+  ],
   "inline": [
     "_statement",
     "_expression"

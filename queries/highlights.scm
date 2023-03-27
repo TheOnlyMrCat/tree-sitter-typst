@@ -13,7 +13,8 @@
 
 (bold_content) @markup.bold
 (em_content) @markup.italic
-(raw_content) @markup.raw.inline
+(inline_raw_content) @markup.raw.inline
+(block_raw_content) @markup.raw.block
 (url) @markup.link.url
 
 (escape_sequence) @constant.character.escape

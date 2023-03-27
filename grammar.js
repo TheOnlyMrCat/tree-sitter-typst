@@ -6,6 +6,10 @@ module.exports = grammar({
     $.block_comment,
     /[\s]/,
   ],
+  externals: $ => [
+    $.raw_block_start,
+    $.raw_block_end,
+  ],
   word: $ => $.ident,
   inline: $ => [
     $._statement,
@@ -26,7 +30,8 @@ module.exports = grammar({
       seq('*', $.bold_content, '*'),
       seq('_', $.em_content, '_'),
       seq('$', $.math_content, '$'),
-      $.raw_content,
+      $.inline_raw_content,
+      $.block_raw_content,
       $.code_introducer,
       $.url,
       // These are placed here to make them reachable from source_file
@@ -49,10 +54,19 @@ module.exports = grammar({
     ),
     bold_content: $ => repeat1(/[^*]+/),
     em_content: $ => repeat1(/[^_]+/),
-    raw_content: $ => seq(
+    inline_raw_content: $ => seq(
       '`',
       /[^`]+/,
       '`',
+    ),
+    block_raw_content: $ => seq(
+      $.raw_block_start,
+      optional(alias(token.immediate(prec(1, /[a-zA-Z_][a-zA-Z0-9_-]*/)), $.raw_language)),
+      alias(
+        repeat(choice(/[^`]+/, /`+/)),
+        $.raw_content_inner,
+      ),
+      $.raw_block_end,
     ),
     url: $ => /https?:\/\/.*/,
 
@@ -61,6 +75,8 @@ module.exports = grammar({
       $.symbol_name,
       $.math_function,
       /[a-zA-Z]/,
+      $.code_introducer,
+      $.escape_sequence,
       $.math_special_punct,
       $.string,
     )),
