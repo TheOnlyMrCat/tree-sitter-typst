@@ -33,7 +33,7 @@ local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.typst = {
   install_info = {
     url = "https://github.com/TheOnlyMrCat/tree-sitter-typst",
-    files = {"src/parser.c"},
+    files = { "src/parser.c", "src/scanner.c" },
     generate_requires_npm = false,
     requires_generate_from_grammar = false,
   },
