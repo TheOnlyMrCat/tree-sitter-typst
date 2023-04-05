@@ -31,6 +31,7 @@ unsigned tree_sitter_typst_external_scanner_serialize(void *payload, char *buffe
 
 void tree_sitter_typst_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
     State *state = (State *) payload;
+    state->fence_length = UINT32_MAX;
     if (length >= 4) {
         state->fence_length = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24);
     }
@@ -60,6 +61,7 @@ bool tree_sitter_typst_external_scanner_scan(void *payload, TSLexer *lexer, cons
 
         if (fence_length == state->fence_length) {
             lexer->result_symbol = RAW_BLOCK_END;
+            state->fence_length = UINT32_MAX;
             return true;
         }
     }

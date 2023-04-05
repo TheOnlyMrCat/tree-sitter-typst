@@ -4,7 +4,7 @@ module.exports = grammar({
   extras: $ => [
     $.line_comment,
     $.block_comment,
-    /[\s]/,
+    /\s+/,
   ],
   externals: $ => [
     $.raw_block_start,
@@ -18,15 +18,11 @@ module.exports = grammar({
   
   rules: {
     source_file: $ => $.content_inner,
-    content_inner: $ => repeat1(prec(-1, choice(
-      /[^\\~\-.*_$#\]\/`h]+/,
+    content_inner: $ => repeat1(choice(
+      token(prec(-1, /[^\s#$`/]+/)),
       $.escape_sequence,
       $.special_punct,
-      "-",
-      ".",
-      "]",
       "/",
-      "h",
       seq('*', $.bold_content, '*'),
       seq('_', $.em_content, '_'),
       seq('$', $.math_content, '$'),
@@ -34,14 +30,14 @@ module.exports = grammar({
       $.block_raw_content,
       $.code_introducer,
       $.url,
-      // These are placed here to make them reachable from source_file
-      $.line_comment, 
-      $.block_comment,
-    ))),
+      // These are placed here to make them reachable from source_file?
+      // $.line_comment,
+      // $.block_comment,
+    )),
     escape_sequence: $ => token(seq(
       "\\",
       choice(
-        /[^ u]/,
+        /[^\su]/,
         /u\{[0-9a-fA-F]+\}/
       )
     )),
@@ -52,6 +48,7 @@ module.exports = grammar({
       "--",
       "...",
     ),
+    // These two are wrong at the moment
     bold_content: $ => repeat1(/[^*]+/),
     em_content: $ => repeat1(/[^_]+/),
     inline_raw_content: $ => seq(
@@ -61,7 +58,7 @@ module.exports = grammar({
     ),
     block_raw_content: $ => seq(
       $.raw_block_start,
-      optional(alias(token.immediate(prec(1, /[a-zA-Z_][a-zA-Z0-9_-]*/)), $.raw_language)),
+      optional(alias(token.immediate(prec(1, /\S+/)), $.raw_language)),
       alias(
         repeat(choice(/[^`]+/, /`+/)),
         $.raw_content_inner,
@@ -101,6 +98,8 @@ module.exports = grammar({
     _statement: $ => choice(
       $.let_statement,
       $.set_statement,
+      $.import_statement,
+      $.include_statement,
       $._expression,
     ),
 
@@ -114,7 +113,30 @@ module.exports = grammar({
     set_statement: $ => seq(
       field("keyword", "set"),
       field("object", $.ident),
-      field("parameters", $.dictionary),
+      field("parameters", $.function_args),
+    ),
+
+    include_statement: $ => seq(
+      field("keyword", "include"),
+      field("object", $.string)
+    ),
+
+    import_statement: $ => seq(
+      field("keyword", "import"),
+      field("object", choice(
+        $.ident,
+        $.string,
+      )),
+      optional(seq(
+        ":",
+        choice(
+          "*",
+          seq(
+            $.ident,
+            repeat(seq(",", $.ident))
+          )
+        )
+      ))
     ),
 
     _expression: $ => choice(

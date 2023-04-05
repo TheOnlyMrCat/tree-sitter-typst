@@ -1,3 +1,6 @@
+#include "script.typ"
+#import "script.typ": *
+
 #set page(
   header: block(
     stroke: (bottom: black),
